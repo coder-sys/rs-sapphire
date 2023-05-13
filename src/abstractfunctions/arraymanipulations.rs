@@ -21,3 +21,13 @@ pub fn find_index<T: PartialEq>(array: &[T], element: &T) -> Option<usize> {
 //    },
 //    None => println!("Element {} not found in the array.", element_to_find),
 //};
+pub fn purify_array<T: Eq + Copy>(arr: &[T]) -> Vec<T> {
+    let mut result = Vec::new();
+    for &elem in arr {
+        if !result.contains(&elem) {
+            result.push(elem);
+        }
+    }
+    result
+}
+

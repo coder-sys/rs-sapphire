@@ -10,11 +10,14 @@ mod sentencetokenization{
 mod abstractfunctions{
     pub mod arraymanipulations;
 }
+mod freqdist{
+    pub mod freqdist;
+}
 use abstractfunctions::arraymanipulations;
 use sentencetokenization::sentencetokenization::Setencetokenization;
 use tokenization::tokenization::Tokenization;
 use transcription::transcription::get_transcript;
-
+use freqdist::freqdist::freq_dist;
 #[tokio::main]
 async fn main() {
 
@@ -22,12 +25,14 @@ async fn main() {
     let  tokenizer = Tokenization{cleansed_transcript:transcript.to_string()};
     let tokens = tokenizer.tokenize();
     let sentence_tokenizer = Setencetokenization{cleansed_transcript:transcript.to_string()};
+
     let sentence_tokens = sentence_tokenizer.tokenize_sentences();
-    println!("{:?}",sentence_tokens);
+    let sentence_tokens = arraymanipulations::purify_array(&sentence_tokens);
     match tokens {
             Ok(v) => {
-                println!("Token is: {:?}", v);
-                
+                let tokens = arraymanipulations::purify_array(&v);
+                let freq = freq_dist(&tokens,&transcript.as_str());
+                println!("{:#?}",freq.get("applause"))
             }
             Err(e) => {
                 println!("Error: {}", e);

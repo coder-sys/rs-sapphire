@@ -13,7 +13,7 @@ pub async fn get_transcript()->String{
     return  body.transcript
 }
 pub async fn call_api() -> Result<Response, Box<dyn Error>> {
-    let body = reqwest::get("http:localhost:8000/get_transcript/npQUgppYeiM")
+    let body = reqwest::get("http:localhost:8000/get_transcript/8mAITcNt710")
         .await?
         .text()
         .await?;
