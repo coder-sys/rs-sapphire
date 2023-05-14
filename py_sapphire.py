@@ -25,6 +25,7 @@ def get_string_format(json_list: list) -> str:
 def index(video):
     json_list = YouTubeTranscriptApi.get_transcript(video, languages=["en", "en-US"])
     string_format = get_string_format(json_list)
+    print("return transcript")
     return {"transcript":string_format.lower()}
 
 if __name__ == "__main__":

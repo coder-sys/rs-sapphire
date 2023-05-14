@@ -13,6 +13,10 @@ mod abstractfunctions{
 mod freqdist{
     pub mod freqdist;
 }
+mod tfidf{
+    pub mod tfidf;
+}
+use tfidf::tfidf::tfidf;
 use abstractfunctions::arraymanipulations;
 use sentencetokenization::sentencetokenization::Setencetokenization;
 use tokenization::tokenization::Tokenization;
@@ -31,8 +35,13 @@ async fn main() {
     match tokens {
             Ok(v) => {
                 let tokens = arraymanipulations::purify_array(&v);
-                let freq = freq_dist(&tokens,&transcript.as_str());
-                println!("{:#?}",freq.get("applause"))
+                let freq = freq_dist(&tokens,&transcript.as_str()); 
+                let tokens: Vec<String> = tokens.iter().map(|s| s.to_string()).collect();
+                let slice_string: &[String] = &tokens;
+                let sentence_tokens: Vec<String> = sentence_tokens.iter().map(|s| s.to_string()).collect();
+                let sentence_tokens: &[String] = &sentence_tokens;
+                let tfdf_matrix = tfidf(&tokens,&sentence_tokens);  
+                println!("{:#?}",tfdf_matrix)             
             }
             Err(e) => {
                 println!("Error: {}", e);
