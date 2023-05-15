@@ -1,3 +1,4 @@
+
 pub fn index_eiminator(array: Vec<i32>, index: usize) -> Vec<i32> {
     let mut array = [11, 2, 3];
     let index_to_array = index;
@@ -15,12 +16,7 @@ pub fn find_index<T: PartialEq>(array: &[T], element: &T) -> Option<usize> {
     }
     None
 }
-//match index {
-//    Some(i) =>{
-//        println!("Element {} found at index {}", element_to_find, i);
-//    },
-//    None => println!("Element {} not found in the array.", element_to_find),
-//};
+
 pub fn purify_array<T: Eq + Copy>(arr: &[T]) -> Vec<T> {
     let mut result = Vec::new();
     for &elem in arr {
@@ -29,4 +25,39 @@ pub fn purify_array<T: Eq + Copy>(arr: &[T]) -> Vec<T> {
         }
     }
     result
+}
+
+#[test]
+fn test_index_eliminator() {
+        // Arrange
+        let array = vec![11, 2, 3];
+        let index = 1;
+
+        // Act
+        let result = index_eliminator(array.clone(), index);
+
+        // Assert
+        assert_eq!(result, vec![11, 3]);
+    }
+#[test]
+fn test_purify_array() {
+    // Test case with repeated elements
+    let arr = [1, 2, 2, 3, 4, 4, 4, 5];
+    let expected = vec![1, 2, 3, 4, 5];
+    assert_eq!(purify_array(&arr), expected);
+
+    // Test case with no repeated elements
+    let arr = [1, 2, 3, 4, 5];
+    let expected = vec![1, 2, 3, 4, 5];
+    assert_eq!(purify_array(&arr), expected);
+
+    // Test case with a single element
+    let arr = [1];
+    let expected = vec![1];
+    assert_eq!(purify_array(&arr), expected);
+
+    // Test case with an empty array
+    let arr: [i32; 0] = [];
+    let expected: Vec<i32> = vec![];
+    assert_eq!(purify_array(&arr), expected);
 }

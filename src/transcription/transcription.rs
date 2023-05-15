@@ -38,7 +38,7 @@ async fn test_call_api() {
             .path("/get_transcript/8mAITcNt710");
         then.status(200)
             .header("Content-Type", "application/json")
-            .body(r#"{"transcript":"Hello world"}"#);
+            .body(r#"{"transcript":"Hello world",sent_tokens:["hello", "world"]}"#);
     });
     let baseurl = server.base_url();
     let body = call_api(baseurl).await.unwrap();
@@ -52,9 +52,26 @@ async fn test_get_transcript() {
             .path("/get_transcript/8mAITcNt710");
         then.status(200)
             .header("Content-Type", "application/json")
-            .body(r#"{"transcript":"Hello world"}"#);
+            .body(r#"{"transcript":"Hello world",sent_tokens:[hello, world]}"#);
     });
     let baseurl = server.base_url();
     let body = get_transcript(baseurl).await;
     assert_eq!(body, "Hello world");
+}
+
+#[tokio::test]
+async fn test_get_sent_tokens(){
+    let server = MockServer::start();
+    let mock = server.mock(|when, then| {
+        when.method(httpmock::Method::GET)
+        .path("/get_transcript/8mAITcNt710");
+        then.status(200)
+        .header("Content-Type", "application/json")
+        .body(r#"{"transcript":"Hello world",sent_tokens:[hello, world]}"#);
+        
+    }
+    );
+    let baseurl = server.base_url();
+        let body = get_transcript(baseurl).await;
+        assert_eq!(body, r#"["hello"," world"]"#);
 }
