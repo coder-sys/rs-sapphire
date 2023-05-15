@@ -1,32 +1,24 @@
 from flask import Flask
 from youtube_transcript_api import YouTubeTranscriptApi
-
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from isodate import parse_duration
 app = Flask(__name__)
 
-def get_string_format(json_list: list) -> str:
-    """
-    To formats the transcript JSON into a string format, follow as given.
 
-    Args:
-    ----
-        json_list (list): A list of transcript segments in JSON format.
 
-    Returns:
-    -------
-        string (str): A formatted string containing the transcript text.
-    """
-    string = ""
-    for segment in json_list:
-        string += segment["text"]+"."
-        string += " "
-    return string
+from string_conversion import join_most_sophisticated_sentences,modify_transcript,get_string_format,get_youtube_video_duration,sent_tokenize
 
-@app.route("/get_transcript/<video>",methods=["GET"])
-def index(video):
-    json_list = YouTubeTranscriptApi.get_transcript(video, languages=["en", "en-US"])
+
+@app.route("/get_transcript/<videoID>",methods=["GET"])
+def get_transcript(videoID):
+    json_list = YouTubeTranscriptApi.get_transcript(videoID, languages=["en", "en-US"])
     string_format = get_string_format(json_list)
-    print("return transcript")
-    return {"transcript":string_format.lower()}
+    transcript = modify_transcript(200, 6000, videoID, string_format)
+    print(type(sent_tokenize(transcript)))
+    return {"transcript":transcript.lower(),"sent_tokens":sent_tokenize(transcript)}
+
+
 
 if __name__ == "__main__":
     app.run(debug=True,host="localhost",port=8000)
