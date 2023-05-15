@@ -31,17 +31,17 @@ use transcription::transcription::get_sent_tokens;
 use scoreevaluation::scoreevaluation::evaluatescore;
 
 const BASE_URL: &str = "http://localhost:8000";
-
+const video_id: &str = "8mAITcNt710";
 #[tokio::main]
 async fn main() {
-    let transcript = get_transcript(BASE_URL.to_string()).await;
+    let transcript = get_transcript(BASE_URL.to_string(),video_id.to_string()).await;
     let tokenizer = Tokenization {
         cleansed_transcript: transcript.to_string(),
     };
     let tokens = tokenizer.tokenize();
     
 
-    let sentence_tokens = get_sent_tokens(BASE_URL.to_string()).await;
+    let sentence_tokens = get_sent_tokens(BASE_URL.to_string(),video_id.to_string()).await;
     let sentence_tokens: Vec<&str> = sentence_tokens.iter().map(|s| s.as_str()).collect();
 
     let sentence_tokens = arraymanipulations::purify_array(&sentence_tokens);

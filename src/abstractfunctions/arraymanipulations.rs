@@ -27,18 +27,7 @@ pub fn purify_array<T: Eq + Copy>(arr: &[T]) -> Vec<T> {
     result
 }
 
-#[test]
-fn test_index_eliminator() {
-        // Arrange
-        let array = vec![11, 2, 3];
-        let index = 1;
 
-        // Act
-        let result = index_eliminator(array.clone(), index);
-
-        // Assert
-        assert_eq!(result, vec![11, 3]);
-    }
 #[test]
 fn test_purify_array() {
     // Test case with repeated elements

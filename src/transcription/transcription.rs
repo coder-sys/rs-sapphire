@@ -9,16 +9,16 @@ pub struct Response {
     pub sent_tokens: Vec<String>,
 }
 
-pub async fn get_transcript(baseurl: String) -> String {
-    let body = call_api(baseurl).await.unwrap();
+pub async fn get_transcript(baseurl: String,video_id: String) -> String {
+    let body = call_api(baseurl,video_id.to_string()).await.unwrap();
     return body.transcript;
 }
-pub async fn get_sent_tokens(baseurl: String) -> Vec<String> {
-    let body = call_api(baseurl).await.unwrap();
+pub async fn get_sent_tokens(baseurl: String,video_id: String) -> Vec<String> {
+    let body = call_api(baseurl,video_id.to_string()).await.unwrap();
     return body.sent_tokens;
 }
-pub async fn call_api(baseurl: String) -> Result<Response, Box<dyn Error>> {
-    let url = format!("{}/get_transcript/LwCRRUa8yTU", baseurl);
+pub async fn call_api(baseurl: String,video_id: String) -> Result<Response, Box<dyn Error>> {
+    let url = format!("{}/get_transcript/{}", baseurl,video_id);
     let body = reqwest::get(url).await?.text().await?;
     let res = serialize_response(body).await?;
     Ok(res)
