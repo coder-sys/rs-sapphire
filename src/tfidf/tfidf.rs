@@ -37,3 +37,30 @@ pub fn tfidf(tokens: &[String], sentences: &[String]) -> HashMap<String, f64> {
 
     tf_idf_scores
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_tfidf() {
+        let tokens = vec![
+            String::from("apple"),
+            String::from("banana"),
+            String::from("cherry"),
+        ];
+        let sentences = vec![
+            String::from("apple banana apple"),
+            String::from("banana cherry"),
+            String::from("cherry apple"),
+        ];
+
+        let tfidf_scores = tfidf(&tokens, &sentences);
+
+        // Verify tf-idf scores for specific tokens
+        println!("{:#?}",tfidf_scores.get("cherry"));
+        assert_eq!(tfidf_scores.get("apple"), Some(&2.8853900817779268));
+        assert_eq!(tfidf_scores.get("banana"), Some(&2.404491734814939));
+        assert_eq!(tfidf_scores.get("cherry"), Some(&2.404491734814939));
+    }
+}

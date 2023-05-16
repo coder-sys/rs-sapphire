@@ -7,3 +7,19 @@ pub fn freq_dist<'a, T: AsRef<str>>(words: &'a [T], text: &'a str) -> HashMap<&'
     }
     freq_map
 }
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_freq_dist() {
+        let words = ["apple", "banana", "cherry"];
+        let text = "apple banana cherry banana apple";
+        let freq_map = freq_dist(&words, text);
+        
+        assert_eq!(freq_map.get("apple"), Some(&2));
+        assert_eq!(freq_map.get("banana"), Some(&2));
+        assert_eq!(freq_map.get("cherry"), Some(&1));
+    }
+}
+

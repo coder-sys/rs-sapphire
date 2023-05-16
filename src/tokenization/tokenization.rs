@@ -12,7 +12,7 @@ impl Tokenization{
         let tokens: Vec<&str> = pattern.find_iter(&self.cleansed_transcript).map(|m| m.as_str()).collect();
     
         // Define the set of stopwords
-        let stopwords = ["/","]","[","[]","i", "me", "you", "he", "him", "she", "her", "it", "we", "us", "they", "them", "myself", "yourself", "himself", "herself", "itself", "ourselves", "themselves", "who", "whom", "whose", "which", "what", "whatever", "whoever", "whomever", "anyone", "anybody", "anything", "someone", "somebody", "something", "everyone", "everybody", "everything", "no one", "nobody", "nothing","dog", "cat", "car", "house", "book", "person", "city", "tree", "food", "water", "sun", "moon", "flower", "child", "friend", "job", "money", "time", "music", "movie", "computer", "phone", "camera", "shoe", "clothes", "room", "bed", "chair", "table", "knife", "fork", "spoon", "plate", "cup", "glass", "bag", "hat", "shirt", "pants", "skirt", "dress", "socks", "shoes", "watch", "jewelry", "guitar", "piano", "violin", "drum", "basketball", "football", "soccer", "baseball", "tennis", "golf","a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        let stopwords = ["!",";",":",",","/","]","[","[]","i", "me", "you", "he", "him", "she", "her", "it", "we", "us", "they", "them", "myself", "yourself", "himself", "herself", "itself", "ourselves", "themselves", "who", "whom", "whose", "which", "what", "whatever", "whoever", "whomever", "anyone", "anybody", "anything", "someone", "somebody", "something", "everyone", "everybody", "everything", "no one", "nobody", "nothing","dog", "cat", "car", "house", "book", "person", "city", "tree", "food", "water", "sun", "moon", "flower", "child", "friend", "job", "money", "time", "music", "movie", "computer", "phone", "camera", "shoe", "clothes", "room", "bed", "chair", "table", "knife", "fork", "spoon", "plate", "cup", "glass", "bag", "hat", "shirt", "pants", "skirt", "dress", "socks", "shoes", "watch", "jewelry", "guitar", "piano", "violin", "drum", "basketball", "football", "soccer", "baseball", "tennis", "golf","a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     
         // Filter out any tokens that match the stopwords
         let filtered_tokens: Vec<&str> = tokens.into_iter()
@@ -28,11 +28,27 @@ impl Tokenization{
     }
     
 }
-//match tokens {
-//    Ok(v) => {
-//        println!("Tokens: {:?}", v);
-//    }
-//    Err(e) => {
-//       println!("Error: {}", e);
-//    }
-//}
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_tokenization() {
+        let tokenization = Tokenization {
+            cleansed_transcript: "hello, world!".to_string(),
+        };
+
+        let expected_tokens = vec!["hello", "world"];
+        println!("actual is {:#?}",tokenization.tokenize().unwrap());
+        assert_eq!(tokenization.tokenize().unwrap(), expected_tokens);
+    }
+
+    #[test]
+    fn test_tokenization_empty_input() {
+        let tokenization = Tokenization {
+            cleansed_transcript: "".to_string(),
+        };
+
+        assert_eq!(tokenization.tokenize().unwrap_err(), "Empty input");
+    }
+}
