@@ -28,7 +28,7 @@ use transcription::transcription::get_sent_tokens;
 use scoreevaluation::scoreevaluation::evaluatescore;
 
 const BASE_URL: &str = "http://localhost:5000";
-const VIDEO_ID: &str = "IaT8-cA_AVU";
+const VIDEO_ID: &str = "8jLOx1hD3_o";
 #[tokio::main]
 async fn main() {
     let transcript = get_transcript(BASE_URL.to_string(),VIDEO_ID.to_string()).await;

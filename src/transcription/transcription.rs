@@ -38,7 +38,7 @@ async fn test_call_api() {
             .path("/get_transcript/8mAITcNt710");
         then.status(200)
             .header("Content-Type", "application/json")
-            .body(r#"{"transcript":"Hello world",sent_tokens:["hello", "world"]}"#);
+            .body(r#"{"transcript":"Hello world","sent_tokens":["hello", "world"]}"#);
     });
     let baseurl = server.base_url();
     let body = call_api(baseurl,"8mAITcNt710".to_string()).await.unwrap();
@@ -52,7 +52,7 @@ async fn test_get_transcript() {
             .path("/get_transcript/8mAITcNt710");
         then.status(200)
             .header("Content-Type", "application/json")
-            .body(r#"{"transcript":"Hello world",sent_tokens:[hello, world]}"#);
+            .body(r#"{"transcript":"Hello world","sent_tokens":["hello", "world"]}"#);
     });
     let baseurl = server.base_url();
     let body = get_transcript(baseurl,"8mAITcNt710".to_string()).await;
@@ -67,11 +67,15 @@ async fn test_get_sent_tokens(){
         .path("/get_transcript/8mAITcNt710");
         then.status(200)
         .header("Content-Type", "application/json")
-        .body(r#"{"transcript":"Hello world",sent_tokens:[hello, world]}"#);
+        .body(r#"{"transcript":"Hello world","sent_tokens":["hello", "world"]}"#);
         
     }
     );
     let baseurl = server.base_url();
-        let body = get_transcript(baseurl,"8mAITcNt710".to_string()).await;
-        assert_eq!(body, r#"["hello"," world"]"#);
+        let body = get_sent_tokens(baseurl,"8mAITcNt710".to_string()).await;
+        let mut expected: Vec<String> = vec![];
+
+        expected.push(String::from("hello"));
+        expected.push(String::from("world"));
+     assert_eq!(body, expected);
 }

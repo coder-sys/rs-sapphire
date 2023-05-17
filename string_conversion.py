@@ -70,7 +70,7 @@ def modify_transcript(
     if get_youtube_video_duration(video_id, os.getenv("api_key")) >= float(
         limit1
     ) and get_youtube_video_duration(video_id, os.getenv("api_key")) <= float(limit2):
-        transcript = join_most_sophisticated_sentences(string_format, 1000)
+        transcript = join_most_sophisticated_sentences(string_format, 50)
         print("Using method 2")
         return transcript
     else:
