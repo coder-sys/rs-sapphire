@@ -11,15 +11,15 @@ mod abstractfunctions {
 mod freqdist {
     pub mod freqdist;
 }
-mod tfidf{
-    pub mod tfidf;
+mod tf_idf{
+    pub mod tf_idf;
 }
 mod scoreevaluation{
     pub mod scoreevaluation;
 }
 
 use std::collections::HashMap;
-use tfidf::tfidf::tfidf;
+use tf_idf::tf_idf::tf_idf;
 use abstractfunctions::arraymanipulations;
 use freqdist::freqdist::freq_dist;
 use tokenization::tokenization::Tokenization;
@@ -27,8 +27,8 @@ use transcription::transcription::get_transcript;
 use transcription::transcription::get_sent_tokens;
 use scoreevaluation::scoreevaluation::evaluatescore;
 
-const BASE_URL: &str = "http://localhost:5000";
-const VIDEO_ID: &str = "8jLOx1hD3_o";
+const BASE_URL: &str = "http://localhost:8000";
+const VIDEO_ID: &str = "CwA1VWP0Ldw";
 #[tokio::main]
 async fn main() {
     let transcript = get_transcript(BASE_URL.to_string(),VIDEO_ID.to_string()).await;
@@ -50,7 +50,7 @@ async fn main() {
                 let slice_string: &[String] = &tokens;
                 let sentence_tokens: Vec<String> = sentence_tokens.iter().map(|s| s.to_string()).collect();
                 let sentence_tokens: &[String] = &sentence_tokens;
-                let tfidf_matrix = tfidf(&tokens,&sentence_tokens);  
+                let tfidf_matrix = tf_idf(&tokens,&sentence_tokens);  
                 let tfidf_matrix: HashMap<String, f64> = tfidf_matrix
                 .into_iter()
                 .filter(|(_, v)| !v.is_nan())

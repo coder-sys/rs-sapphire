@@ -14,11 +14,11 @@ from string_conversion import join_most_sophisticated_sentences,modify_transcrip
 def get_transcript(videoID):
     json_list = YouTubeTranscriptApi.get_transcript(videoID, languages=["en", "en-US"])
     string_format = get_string_format(json_list)
-    transcript = modify_transcript(200, 6000, videoID, string_format)
-    print(type(sent_tokenize(transcript)))
+    transcript = modify_transcript(60, 6000, videoID, string_format)
+    print(len(sent_tokenize(transcript)))
     return {"transcript":transcript.lower(),"sent_tokens":sent_tokenize(transcript)}
 
 
 
 if __name__ == "__main__":
-    app.run(debug=True,host="localhost",port=5000)
+    app.run(debug=True,host="localhost",port=8000)

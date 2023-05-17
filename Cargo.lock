@@ -7,8 +7,10 @@ name = "CSapphire"
 version = "0.1.0"
 dependencies = [
  "httpmock",
+ "lazy_static",
  "regex",
  "reqwest",
+ "rust-tfidf",
  "serde",
  "serde_json",
  "tokio",
@@ -1265,6 +1267,12 @@ dependencies = [
  "web-sys",
  "winreg",
 ]
+
+[[package]]
+name = "rust-tfidf"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba645a24c2f02d569e5bb4178e3ce8c82fce061888901e939d989ca67f2b4ce6"
 
 [[package]]
 name = "rustix"

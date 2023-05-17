@@ -2,10 +2,25 @@ use std::collections::HashMap;
 
 pub fn freq_dist<'a, T: AsRef<str>>(words: &'a [T], text: &'a str) -> HashMap<&'a str, usize> {
     let mut freq_map: HashMap<&str, usize> = HashMap::new();
+
     for word in words {
-        *freq_map.entry(word.as_ref()).or_insert(0) += text.matches(word.as_ref()).count();
+        let word_ref = word.as_ref();
+        *freq_map.entry(word_ref).or_insert(0) += count_matches(text, word_ref);
     }
+
     freq_map
+}
+
+fn count_matches(text: &str, word: &str) -> usize {
+    let mut count = 0;
+    let mut start = 0;
+
+    while let Some(index) = text[start..].find(word) {
+        count += 1;
+        start += index + word.len();
+    }
+
+    count
 }
 #[cfg(test)]
 mod tests {
