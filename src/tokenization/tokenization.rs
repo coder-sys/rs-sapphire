@@ -7,7 +7,11 @@ pub struct Tokenization {
 }
 
 lazy_static! {
+        // Define a static variable `PATTERN` of type `Regex` initialized with a regex pattern
+
     static ref PATTERN: Regex = Regex::new(r"\w+|[^\w\s]+").unwrap();
+        // Define a static variable `STOPWORDS` of type `HashSet<&'static str>` initialized with a collection of stop words
+
     static ref STOPWORDS: HashSet<&'static str> = [
         "!", ";", ":", ",", "/", "]", "[", "[]", "i", "me", "you", "he", "him", "she", "her", "it",
         "we", "us", "they", "them", "myself", "yourself", "himself", "herself", "itself", "ourselves",
@@ -29,25 +33,31 @@ lazy_static! {
 
 impl Tokenization {
     pub fn tokenize(&self) -> Result<Vec<&str>, &'static str> {
+        // Create a vector to store the filtered tokens
         let filtered_tokens: Vec<&str> = PATTERN
             .find_iter(&self.cleansed_transcript)
             .filter_map(|m| {
+                // Get the matched token as a string slice
                 let token = m.as_str();
+
+                // Check if the token is not a stopword (case-insensitive)
                 if !STOPWORDS.contains(&token.to_lowercase().as_str()) {
-                    Some(token)
+                    Some(token) // Include the token in the filtered tokens
                 } else {
-                    None
+                    None // Exclude the token
                 }
             })
             .collect();
 
+        // Check if there are any filtered tokens
         if filtered_tokens.is_empty() {
-            Err("Empty input")
+            Err("Empty input") // Return an error if there are no tokens
         } else {
-            Ok(filtered_tokens)
+            Ok(filtered_tokens) // Return the filtered tokens
         }
     }
 }
+
 
 #[cfg(test)]
 mod tests {

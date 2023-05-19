@@ -1,15 +1,27 @@
 use std::collections::HashMap;
 
-pub fn evaluatescore<'a>(tfidf:HashMap<String,f64>,freqdist:HashMap<&'a str, usize>)->f64{
-    let mut num:f64 = 0.0;
-    for (key,value) in &tfidf{
-        let floatfrmt:f64 = *freqdist.get(key.as_str()).unwrap() as f64;
-        num += value*floatfrmt;
+pub fn evaluatescore<'a>(tfidf: HashMap<String, f64>, freqdist: HashMap<&'a str, usize>) -> f64 {
+    let mut num: f64 = 0.0;
+
+    // Iterate over each key-value pair in the tfidf HashMap
+    for (key, value) in &tfidf {
+        // Get the frequency from the freqdist HashMap using the key as a string
+        let floatfrmt: f64 = *freqdist.get(key.as_str()).unwrap() as f64;
+
+        // Multiply the tfidf value with the frequency and accumulate the sum
+        num += value * floatfrmt;
     }
+
+    // Calculate the denominator as the length of the tfidf HashMap
     let den = tfidf.len() as f64;
-    let ratio = num/den;
+
+    // Calculate the ratio by dividing the numerator by the denominator
+    let ratio = num / den;
+
+    // Return the ratio as the final score
     ratio as f64
 }
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -9,23 +9,35 @@ pub struct Response {
     pub sent_tokens: Vec<String>,
 }
 
-pub async fn get_transcript(baseurl: String,video_id: String) -> String {
-    let body = call_api(baseurl,video_id.to_string()).await.unwrap();
+// Retrieves the transcript from the API based on the video ID
+pub async fn get_transcript(baseurl: String, video_id: String) -> String {
+    let body = call_api(baseurl, video_id.to_string()).await.unwrap();
     return body.transcript;
 }
-pub async fn get_sent_tokens(baseurl: String,video_id: String) -> Vec<String> {
-    let body = call_api(baseurl,video_id.to_string()).await.unwrap();
+
+// Retrieves the sentence tokens from the API based on the video ID
+pub async fn get_sent_tokens(baseurl: String, video_id: String) -> Vec<String> {
+    let body = call_api(baseurl, video_id.to_string()).await.unwrap();
     return body.sent_tokens;
 }
-pub async fn call_api(baseurl: String,video_id: String) -> Result<Response, Box<dyn Error>> {
-    let url = format!("{}/get_transcript/{}", baseurl,video_id);
+
+// Calls the API and returns the response
+pub async fn call_api(baseurl: String, video_id: String) -> Result<Response, Box<dyn Error>> {
+    let url = format!("{}/get_transcript/{}", baseurl, video_id);
+
+    // Make a GET request to the API
     let body = reqwest::get(url).await?.text().await?;
+
+    // Deserialize the API response into a Response struct
     let res = serialize_response(body).await?;
+
     Ok(res)
 }
 
+// Deserializes the JSON response into a Response struct
 async fn serialize_response(body: String) -> Result<Response, serde_json::Error> {
     let response: Response = serde_json::from_str(&body)?;
+
     Ok(response)
 }
 

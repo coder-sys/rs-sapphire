@@ -1,12 +1,19 @@
 
 
 pub fn purify_array<T: Eq + Copy>(arr: &[T]) -> Vec<T> {
+    // Create a new empty vector to store the purified elements
     let mut result = Vec::new();
+
+    // Iterate over each element in the input array
     for &elem in arr {
+        // Check if the element is already present in the result vector
         if !result.contains(&elem) {
+            // If the element is not present, add it to the result vector
             result.push(elem);
         }
     }
+
+    // Return the purified vector
     result
 }
 

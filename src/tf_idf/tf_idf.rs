@@ -1,10 +1,17 @@
 use std::collections::{HashMap, HashSet};
+
 pub fn tf_idf(tokens: &[String], sentences: &[String]) -> HashMap<String, f64> {
+    // Get the number of documents (sentences)
     let num_docs = sentences.len();
+
+    // Create a set of unique tokens
     let tokens_set: HashSet<&str> = tokens.iter().map(|s| s.as_str()).collect();
+
+    // Get the total count of tokens and the count of unique tokens
     let tokens_len = tokens.len();
     let tokens_set_len = tokens_set.len();
 
+    // Calculate term frequency (tf) for each token in each sentence
     let term_freq: HashMap<String, Vec<usize>> = tokens_set
         .iter()
         .map(|&token| {
@@ -16,6 +23,7 @@ pub fn tf_idf(tokens: &[String], sentences: &[String]) -> HashMap<String, f64> {
         })
         .collect();
 
+    // Calculate document frequency (df) for each token
     let doc_freq: HashMap<&str, usize> = term_freq
         .keys()
         .map(|token| {
@@ -24,6 +32,7 @@ pub fn tf_idf(tokens: &[String], sentences: &[String]) -> HashMap<String, f64> {
         })
         .collect();
 
+    // Calculate TF-IDF scores for each token
     let mut tf_idf_scores: HashMap<String, f64> = HashMap::new();
     for (token, freqs) in term_freq.iter() {
         let doc_freq_count = doc_freq[token.as_str()];
@@ -31,7 +40,9 @@ pub fn tf_idf(tokens: &[String], sentences: &[String]) -> HashMap<String, f64> {
             .iter()
             .enumerate()
             .fold(0.0, |acc, (i, &freq)| {
+                // Calculate term frequency (tf)
                 let tf = (freq + 1) as f64 / (tokens_len + tokens_set_len) as f64;
+                // Calculate inverse document frequency (idf)
                 let idf = (num_docs + 1) as f64 / (doc_freq_count as f64 + 1.0).ln();
                 acc + tf * idf
             });
