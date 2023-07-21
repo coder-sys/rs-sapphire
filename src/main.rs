@@ -91,6 +91,7 @@ async fn main() {
         }
         Err(e) => {
             println!("Error: {}", e);
+            println!("The provided YouTube Video does not have enabled transcription");
         }
     }
 }

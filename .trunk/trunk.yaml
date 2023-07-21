@@ -1,0 +1,36 @@
+version: 0.1
+cli:
+  version: 1.12.3
+plugins:
+  sources:
+    - id: trunk
+      ref: v0.0.22
+      uri: https://github.com/trunk-io/plugins
+lint:
+  enabled:
+    - bandit@1.7.5
+    - black@23.7.0
+    - checkov@2.3.335
+    - clippy@1.65.0
+    - dotenv-linter@3.3.0
+    - git-diff-check
+    - isort@5.12.0
+    - osv-scanner@1.3.6
+    - prettier@3.0.0
+    - ruff@0.0.278
+    - rustfmt@1.65.0
+    - taplo@0.8.1
+    - trivy@0.43.1
+    - trufflehog@3.44.0
+    - yamllint@1.32.0
+runtimes:
+  enabled:
+    - node@18.12.1
+    - python@3.10.8
+actions:
+  disabled:
+    - trunk-check-pre-push
+    - trunk-fmt-pre-commit
+  enabled:
+    - trunk-announce
+    - trunk-upgrade-available
