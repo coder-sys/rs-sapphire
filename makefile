@@ -23,9 +23,9 @@ download:
 
 run_server:
 	@echo "Starting server..."
-	@python py_sapphire.py
+	@python python/py_sapphire.py
 run_main:
-@echo "Starting server..."
+	@echo "Starting server..."
 	@echo "Start Project..."
 	@cargo run
 	@echo "Done running"
